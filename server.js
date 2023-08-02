@@ -3,10 +3,10 @@ import morgan from "morgan";
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import {home,about} from './src/apiList.js';
+import {home,about,bufferTest,dnsTest} from './src/apiList.js';
 
 const PORT = 8080;
-const HOST = "localhost";
+const HOST = "0.0.0.0";
 
 try {
 	const app = express();
@@ -21,13 +21,23 @@ try {
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(bodyParser.json());
 	app.options('/') // preflight 
+
+
 	app.get('/', (req, res) => { 
 		home(req,res)
-
 	});  
 	app.get('/about', (req, res) => {  
 		about(req,res)
 	}); 
+	app.get('/bufferTest', (req, res) => {  
+		bufferTest(req,res)
+	}); 
+	app.get('/dnsTest', (req, res) => {  
+		dnsTest(req,res)
+	});
+
+
+	
 	var server = app.listen(PORT,HOST,() => {  
 		console.log(server.address())
 		var host = server.address().address;  
